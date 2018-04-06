@@ -71,8 +71,9 @@ public class linkstate {
         // set distance to self = 0
         distance[0] = 0;
 
-        for (int i = 0; i < amtOfNodes-1; i++) {
+        printTitle();
 
+        for (int i = 0; i < amtOfNodes; i++) {
             // finds the node that is closest to current node
             int min = infiniti;
             int index = -1;
@@ -82,10 +83,8 @@ public class linkstate {
                   index = a;
               }
             }
-
             // current node is located
             located[index] = true;
-
             for (int b = 0; b < amtOfNodes; b++) {
               // if node b is not yet located
               // and if node b knows the distance to the index
@@ -96,24 +95,54 @@ public class linkstate {
                     distance[b] = distance[index] + nodeInts[index][b];
               }
             }
-
             // print the constructed distance array
-            output(located, distance, prevNode, amtOfNodes);
-
+            output(i, located, distance, prevNode, amtOfNodes);
         }
 
     }
 
     // print output
-    public static void output(boolean located[], int distance[], String prevNode[], int n) {
-        System.out.println("Vertex   D(v),p(v)");
-        for (int i = 1; i < amtOfNodes; i++) {
-          System.out.println( (i+1) + "   " + distance[i]);
+    public static void output(int step, boolean located[], int distance[], String prevNode[], int n) {
+        System.out.print(step + "       ");
+        int spaceCount = 0;
+        boolean firstprint = true;
+        for (int j = 0; j < amtOfNodes; j++) {
+          if (located[j] && !firstprint) {
+            System.out.print("," + Integer.toString((j+1)));
+          } else if (located[j]) {
+            System.out.print(Integer.toString((j+1)));
+            firstprint = false;
+          } else {
+            spaceCount++;
+          }
         }
+        for (int i = 0; i <= spaceCount; i++) {
+          System.out.print("  ");
+        }
+        for (int k = 1; k < amtOfNodes; k++) {
+          if (distance[k] == infiniti) {
+            System.out.print("N         ");
+          } else if (located[k]) {
+            System.out.print("          ");
+          } else {
+            System.out.print( distance[k] + ",pn      ");
+          }
+        }
+        System.out.println();
+        dottedLine();
+    }
+
+    public static void printTitle() {
+      System.out.print("Step    N'          ");
+      for (int c = 1; c < amtOfNodes; c++) {
+        System.out.print("D(" + (c+1) + "),p(" + (c+1) + ")   ");
+      }
+      System.out.println();
+      dottedLine();
     }
 
     public static void dottedLine() {
-     System.out.println("----------------------------------------------------");
+     System.out.println("-------------------------------------------------------------------------");
     }
 
 }
