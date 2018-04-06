@@ -11,6 +11,10 @@ public class linkstate {
   // p(v): previous node (neighbor of v) along the current least-cost path from the source to v.
   // N: subset of nodes; v is in N  if the least-cost path from the source to v is definitively known.
 
+  public static int amtOfNodes;
+  public static Integer infiniti = Integer.MAX_VALUE;
+
+
   public static void main(String[] args) throws IOException {
 
     // check for filename argument
@@ -22,37 +26,52 @@ public class linkstate {
     // read from file
     String filename = args[0].replaceAll("\\s+", "");
     String fileContents = new String(Files.readAllBytes(Paths.get(filename))).replaceAll("\\s+", "");
-    String[] fileSplit = fileContents.split("\\.");
+    String[] fileSplit = fileContents.trim().split("\\.");
 
-    // puts the numbers in a 2d array
-    for (int i = 0; i < fileSplit.length; i++) {
-        // System.out.println("line " + i + ": " + fileSplit[i]);
-        String[] graphString = fileSplit[i].split("\\,");
-        int[][] graph = new int[fileSplit.length][graphString.length];
-        for (int j = 0; j < graphString.length; j++) {
-          int item = -1;
-          try {
-            item = Integer.parseInt(graphString[j]);
-          } catch (NumberFormatException e) {
-            item = -1;
-          }
-          graph[i][j] = item;
-          // System.out.println(graph[i][j]);
+    // find size of 2d array
+    amtOfNodes = fileSplit.length - 1;
+    System.out.println("amt of nodes: " + amtOfNodes);
+
+    // put the values into a 2d array of strings
+    String[][] nodeStrings = new String[amtOfNodes][amtOfNodes];
+    for (int i = 0; i < amtOfNodes; i++) {
+      nodeStrings[i] = fileSplit[i].split("\\,");
+    }
+    // for (int i = 0; i < amtOfNodes; i++) {
+    //   for (int j = 0; j < amtOfNodes; j++) {
+    //     System.out.print(nodeStrings[i][j] + " ");
+    //   }
+    //   System.out.println();
+    // }
+
+    // convert the strings to integers
+    int[][] nodeInts = new int[amtOfNodes][amtOfNodes];
+    for (int i = 0; i < amtOfNodes; i++) {
+      for (int j = 0; j < amtOfNodes; j++) {
+        if (nodeStrings[i][j].equals("N")) {
+          nodeInts[i][j] = infiniti;
+        } else {
+          nodeInts[i][j] = Integer.parseInt(nodeStrings[i][j]);
         }
+      }
     }
 
-    printTitle();
+    // print 2d array of integers
+    for (int i = 0; i < amtOfNodes; i++) {
+      for (int j = 0; j < amtOfNodes; j++) {
+        if (nodeInts[i][j] == infiniti) {
+          System.out.print("N.");
+        } else {
+          System.out.print(nodeInts[i][j] + " ");
+        }
+      }
+      System.out.println();
+    }
 
   }
 
   public static void dottedLine() {
     System.out.println("--------------------------------------------------------------------------------");
-  }
-
-  public static void printTitle() {
-    dottedLine();
-    System.out.println("Step  N'      D(v),p(v)     D(w),p(w)    D(x),p(x)     D(y),p(y)      D(z),p(z) ");
-    dottedLine();
   }
 
 }
