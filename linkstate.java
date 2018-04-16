@@ -68,6 +68,10 @@ public class linkstate {
             located[i] = false;
         }
 
+        // string of located nodes
+        String locNodes = "";
+        int numLocated = 0;
+
         // set distance to self = 0
         distance[0] = 0;
 
@@ -85,6 +89,13 @@ public class linkstate {
             }
             // current node is located
             located[index] = true;
+            if (i == 0) {
+              locNodes = locNodes + Integer.toString(index + 1);
+            } else {
+              locNodes = locNodes + "," + Integer.toString(index + 1);
+            }
+            numLocated++;
+
             for (int b = 0; b < amtOfNodes; b++) {
               // if node b is not yet located
               // and if node b knows the distance to the index
@@ -96,26 +107,32 @@ public class linkstate {
               }
             }
             // print the constructed distance array
-            output(i, located, distance, prevNode, amtOfNodes);
+            output(i, located, locNodes, numLocated, distance, prevNode, amtOfNodes);
         }
 
     }
 
     // print output
-    public static void output(int step, boolean located[], int distance[], String prevNode[], int n) {
+    public static void output(int step, boolean located[], String locNodes, int numLocated, int distance[], String prevNode[], int n) {
         System.out.print(step + "       ");
         int spaceCount = 0;
         boolean firstprint = true;
-        for (int j = 0; j < amtOfNodes; j++) {
-          if (located[j] && !firstprint) {
-            System.out.print("," + Integer.toString((j+1)));
-          } else if (located[j]) {
-            System.out.print(Integer.toString((j+1)));
-            firstprint = false;
-          } else {
-            spaceCount++;
-          }
+        // for (int j = 0; j < amtOfNodes; j++) {
+        //   if (located[j] && !firstprint) {
+        //     System.out.print("," + Integer.toString((j+1)));
+        //   } else if (located[j]) {
+        //     System.out.print(Integer.toString((j+1)));
+        //     firstprint = false;
+        //   } else {
+        //     spaceCount++;
+        //   }
+        // }
+        int amtOfSpaces = located.length - numLocated;
+        String spaces = "";
+        for (int h = 0; h < amtOfSpaces; h++) {
+          spaces = spaces + "  ";
         }
+        System.out.print(locNodes + spaces);
         for (int i = 0; i <= spaceCount; i++) {
           System.out.print("  ");
         }
