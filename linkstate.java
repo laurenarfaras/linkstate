@@ -104,6 +104,7 @@ public class linkstate {
               if (!located[b] && nodeInts[index][b]!= infiniti && distance[index] != infiniti &&
                   distance[index]+nodeInts[index][b] < distance[b]) {
                     distance[b] = distance[index] + nodeInts[index][b];
+                    prevNode[b] = Integer.toString(index + 1);
               }
             }
             // print the constructed distance array
@@ -117,16 +118,6 @@ public class linkstate {
         System.out.print(step + "       ");
         int spaceCount = 0;
         boolean firstprint = true;
-        // for (int j = 0; j < amtOfNodes; j++) {
-        //   if (located[j] && !firstprint) {
-        //     System.out.print("," + Integer.toString((j+1)));
-        //   } else if (located[j]) {
-        //     System.out.print(Integer.toString((j+1)));
-        //     firstprint = false;
-        //   } else {
-        //     spaceCount++;
-        //   }
-        // }
         int amtOfSpaces = located.length - numLocated;
         String spaces = "";
         for (int h = 0; h < amtOfSpaces; h++) {
@@ -142,7 +133,7 @@ public class linkstate {
           } else if (located[k]) {
             System.out.print("          ");
           } else {
-            System.out.print( distance[k] + ",pn      ");
+            System.out.print( distance[k] + "," + prevNode[k] + "       ");
           }
         }
         System.out.println();
