@@ -54,6 +54,7 @@ public class linkstate {
     }
 
     public static void dijkstra(int nodeInts[][]) {
+      try {
         // keeps track of the shortest distance
         int distance[] = new int[amtOfNodes];
         // keeps track of the previous node to find the
@@ -110,7 +111,10 @@ public class linkstate {
             // print the constructed distance array
             output(i, located, locNodes, numLocated, distance, prevNode, amtOfNodes);
         }
-
+      } catch (Exception e) {
+        System.out.println("Error... terminating gracfully.");
+        System.exit(0);
+      }
     }
 
     // print output
